@@ -2,25 +2,58 @@
 #include <vector>
 #include <iostream>
 
+template<typename T>
 class Node {
 public: 
-	Node(int);
+	Node(T);
 	Node() {};
-	void insert(const std::vector<int>&);
+	void insert(const std::vector<T>&);
 	void display();
 	int length();
-	void insert_at(int, int);
+	bool exists(T);
+	void reverse();
+	void insert_at(int, T);
 	int delete_first();
-	int delete_at(int);
-	void insert_before_first(int data);
+	int delete_at(T);
+	void insert_before_first(T);
 
 private:
 	std::shared_ptr<Node> head, last, prev, next;
 	int data = 0;
 };
 
+template<typename T>
+bool
+Node<T>::exists(T data) {
+	auto p = head;
+	while (p) {
+		if (p->data == data) return true;
+		p = p->next;
+	}
+	return false;
+}
+
+
+template<typename T>
+void
+Node<T>::reverse() {
+	auto p = head;
+
+	while (p) {
+		auto temp = p->next;
+		p->next = p->prev;
+		p->prev = temp;
+		p = p->prev;
+		// last node?
+		if (!p && !p->next) {
+			head = p;
+		}
+	}
+}
+
+template<typename T>
 int
-Node::delete_at(int pos) {
+Node<T>::delete_at(T pos) {
 	if (pos >= length()) {
 		throw std::runtime_error{ "Wrong len" };
 	}
@@ -41,9 +74,9 @@ Node::delete_at(int pos) {
 	return x;
 }
 
-
+template<typename T>
 int
-Node::delete_first() {
+Node<T>::delete_first() {
 	auto p = head;
 	head = head->next;
 	if (head) {
@@ -52,8 +85,9 @@ Node::delete_first() {
 	return p->data;
 }
 
+template<typename T>
 void
-Node::insert_at(int pos, int d) {
+Node<T>::insert_at(int pos, T d) {
 	if (pos >= length()) {
 		throw std::runtime_error{"Wrong position"};
 	}
@@ -79,8 +113,9 @@ Node::insert_at(int pos, int d) {
 	p->next = t;
 }
 
+template<typename T>
 void
-Node::insert_before_first(int data) {
+Node<T>::insert_before_first(T data) {
 	auto t = std::make_shared<Node>();
 	t->data = data;
 	t->next = head;
@@ -88,8 +123,9 @@ Node::insert_before_first(int data) {
 	head = t;
 }
 
+template<typename T>
 int
-Node::length() {
+Node<T>::length() {
 	int len = 0;
 	auto p = head;
 	while (p) {
@@ -99,13 +135,15 @@ Node::length() {
 	return len;
 }
 
-Node::Node(int data) {
+template<typename T>
+Node<T>::Node(T data) {
 	this->data = data;
 	head = std::make_shared<Node>();
 }
 
+template<typename T>
 void
-Node::display() {
+Node<T>::display() {
 	auto p = head;
 	while (p) {
 		std::cout << p->data << '\t';
@@ -114,8 +152,9 @@ Node::display() {
 	std::cout << std::endl;
 }
 
+template<typename T>
 void
-Node::insert(const std::vector<int>& v) {
+Node<T>::insert(const std::vector<T>& v) {
 	last = head;
 	for (auto val : v) {
 		auto t = std::make_shared<Node>();
@@ -128,7 +167,7 @@ Node::insert(const std::vector<int>& v) {
 }
 
 int main() {
-	Node* n = new Node(4);
+	Node<int>* n = new Node<int>(4);
 	std::vector<int> v{ 1,2,3,4,5,6 };
 	n->insert(v);
 	n->insert_before_first(-7);

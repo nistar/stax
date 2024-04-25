@@ -24,6 +24,7 @@
     <ProjectGuid>{29db119e-afe1-4f38-92c3-99246bf84d67}</ProjectGuid>
     <RootNamespace>stax</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>LinkedList</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
